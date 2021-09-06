@@ -8,14 +8,26 @@ public class DetectItems : MonoBehaviour
     //https://www.youtube.com/watch?v=j1-OyLo77ss&ab_channel=Comp-3Interactive
 
     public float radius;
-    //public GameObject itemRef;
     public LayerMask targetMask;
     public bool canDetectItem;
+    public GameObject Message;
 
     private void Start()
     {
         //itemRef = GameObject.FindGameObjectWithTag("Item");
         StartCoroutine(DetectRoutine());
+    }
+
+    private void Update()
+    {
+        if (canDetectItem == true)
+        {
+            Message.SetActive(true);
+        }
+        else
+        {
+            Message.SetActive(false);
+        }
     }
 
     private IEnumerator DetectRoutine()
@@ -43,4 +55,9 @@ public class DetectItems : MonoBehaviour
             canDetectItem = false;
         }
     }
+
+    
+
+
+
 }

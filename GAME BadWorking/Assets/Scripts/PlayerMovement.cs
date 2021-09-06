@@ -1,10 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class PlayerMovement : MonoBehaviour
 {
     private Rigidbody rb;
+
+    public GameObject Hand;
 
     public float speed = 5f;
     Vector3 forward;
@@ -41,5 +44,24 @@ public class PlayerMovement : MonoBehaviour
             rb.velocity = transform.forward * speed;
         }
         else rb.velocity = new Vector3();
+
+        
+    }
+
+    private void Inventory_ItemUsed(object sender, InventoryEventArgs e)
+    {
+        IInventoryItem item = e.Item;
+
+        GameObject goItem = (item as MonoBehaviour).gameObject;
+        if (Input.GetButtonDown("Submit"))
+        {
+            goItem.SetActive(true);
+        }
+
+       
+
+        goItem.transform.parent = Hand.transform;
+        goItem.transform.localPosition = (item as MaterialA).PickupPos;
+        goItem.transform.localEulerAngles = (item as MaterialA).PickupRot;
     }
 }

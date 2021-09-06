@@ -2,16 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class PlayerMovement : MonoBehaviour
 {
+    private Rigidbody rb;
+
     public float speed = 5f;
     Vector3 forward;
     Vector3 right;
+
+    Vector3 vertical;
+    Vector3 horizontal;
+
     [SerializeField] Camera cam;
 
     // Start is called before the first frame update
     void Start()
     {
+        rb = GetComponent<Rigidbody>();
+
         //initialize new forward and right vectors
         //by rotating the original ones by 45 degrees
         forward = Quaternion.Euler(new Vector3(0, 45, 0)) * transform.forward;
@@ -20,21 +28,18 @@ public class Player : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    {
+    { 
         if (Input.anyKey)
         {
-            Move();
+            vertical = forward * Input.GetAxis("Vertical");
+            horizontal = right * Input.GetAxis("Horizontal");
+
+            //rotate player
+            transform.forward = Vector3.Normalize(horizontal + vertical);
+
+            //move player
+            rb.velocity = transform.forward * speed;
         }
-    }
-
-    void Move()
-    {
-        Vector3 horizontalMovement = right * speed * Time.deltaTime * Input.GetAxis("Horizontal");
-        Vector3 verticalMovement = forward * speed * Time.deltaTime * Input.GetAxis("Vertical");
-
-        //rotate player
-        transform.forward = Vector3.Normalize(horizontalMovement + verticalMovement);
-        //move player
-        transform.position += horizontalMovement + verticalMovement;
+        else rb.velocity = new Vector3();
     }
 }

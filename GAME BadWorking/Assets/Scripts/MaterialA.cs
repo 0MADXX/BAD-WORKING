@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MaterialA : MonoBehaviour, IInventoryItem
+public class MaterialA : MonoBehaviour
 {
     public Vector3 PickupPos;
     public Vector3 PickupRot;

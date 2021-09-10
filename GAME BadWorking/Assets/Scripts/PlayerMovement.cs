@@ -16,8 +16,6 @@ public class PlayerMovement : MonoBehaviour
     Vector3 vertical;
     Vector3 horizontal;
 
-    [SerializeField] Camera cam;
-
     // Start is called before the first frame update
     void Start()
     {
@@ -31,8 +29,17 @@ public class PlayerMovement : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    { 
-        if (Input.anyKey)
+    {
+
+        if (Input.GetButtonDown("Submit"))
+        {
+            
+        }
+
+        if (Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.UpArrow) ||
+            Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.LeftArrow) ||
+            Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) ||
+            Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D))
         {
             vertical = forward * Input.GetAxis("Vertical");
             horizontal = right * Input.GetAxis("Horizontal");
@@ -44,24 +51,8 @@ public class PlayerMovement : MonoBehaviour
             rb.velocity = transform.forward * speed;
         }
         else rb.velocity = new Vector3();
-
-        
+ 
     }
 
-    private void Inventory_ItemUsed(object sender, InventoryEventArgs e)
-    {
-        IInventoryItem item = e.Item;
-
-        GameObject goItem = (item as MonoBehaviour).gameObject;
-        if (Input.GetButtonDown("Submit"))
-        {
-            goItem.SetActive(true);
-        }
-
-       
-
-        goItem.transform.parent = Hand.transform;
-        goItem.transform.localPosition = (item as MaterialA).PickupPos;
-        goItem.transform.localEulerAngles = (item as MaterialA).PickupRot;
-    }
+    
 }
